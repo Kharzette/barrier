@@ -35,7 +35,9 @@
 #include <sstream>
 #include <iostream>
 #include <conio.h>
+#if WINVER > _WIN32_WINNT_WINXP
 #include <VersionHelpers.h>
+#endif
 
 AppUtilWindows::AppUtilWindows(IEventQueue* events) :
     m_events(events),
@@ -134,9 +136,11 @@ AppUtilWindows::beforeAppExit()
 int
 AppUtilWindows::run(int argc, char** argv)
 {
+#if WINVER > _WIN32_WINNT_WINXP
     if (!IsWindowsXPSP3OrGreater()) {
         throw std::runtime_error("Barrier only supports Windows XP SP3 and above.");
     }
+#endif
 
     // record window instance for tray icon, etc
     ArchMiscWindows::setInstanceWin32(GetModuleHandle(NULL));

@@ -15,8 +15,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//Preprocessor define WINVER to 0x0501 or _WIN32_WINNT_WINXP for a winxp build of this file
 #include "encoding_utilities.h"
+#if WINVER > _WIN32_WINNT_WINXP
 #include <stringapiset.h>
+#else
+#include <WinNls.h>
+#endif
 
 std::string win_wchar_to_utf8(const WCHAR* utfStr)
 {

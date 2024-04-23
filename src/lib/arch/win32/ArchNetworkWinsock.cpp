@@ -785,12 +785,14 @@ ArchNetworkWinsock::addrToString(ArchNetAddress addr)
         return inet_ntoa_winsock(ipAddr->sin_addr);
     }
 
+#if WINVER > _WIN32_WINNT_VISTA
     case kINET6: {
         char strAddr[INET6_ADDRSTRLEN];
         auto* ipAddr = TYPED_ADDR(struct sockaddr_in6, addr);
         inet_ntop(AF_INET6, &ipAddr->sin6_addr, strAddr, INET6_ADDRSTRLEN);
         return strAddr;
     }
+#endif
 
     default:
         assert(0 && "unknown address family");

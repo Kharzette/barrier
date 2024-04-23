@@ -31,7 +31,9 @@
 #include "base/IEventQueue.h"
 
 #include <malloc.h>
+#if WINVER > _WIN32_WINNT_WINXP
 #include <VersionHelpers.h>
+#endif
 
 // these are only defined when WINVER >= 0x0500
 #if !defined(SPI_GETMOUSESPEED)
@@ -688,10 +690,12 @@ void MSWindowsDesks::desk_thread(Desk* desk)
             if (msg.lParam != 0) {
                 mouse_event(MOUSEEVENTF_WHEEL, 0, 0, (DWORD)msg.lParam, 0);
             }
+#if WINVER > _WIN32_WINNT_WINXP
             else if (IsWindowsVistaOrGreater() && msg.wParam != 0) {
                 mouse_event(MOUSEEVENTF_HWHEEL, 0, 0, (DWORD)msg.wParam, 0);
             }
-            break;
+#endif
+        break;
 
         case BARRIER_MSG_CURSOR_POS: {
             POINT* pos = reinterpret_cast<POINT*>(msg.wParam);

@@ -27,7 +27,9 @@
 #include "io/filesystem.h"
 
 #ifdef WINAPI_MSWINDOWS
+#if WINVER > _WIN32_WINNT_WINXP
 #include <VersionHelpers.h>
+#endif
 #endif
 
 ArgsBase* ArgParser::m_argsBase = NULL;
@@ -270,12 +272,13 @@ ArgParser::parseGenericArgs(int argc, const char* const* argv, int& i)
 
 #ifdef WINAPI_MSWINDOWS
 
+#if WINVER > _WIN32_WINNT_WINXP
         if (!IsWindowsVistaOrGreater()) {
             useDragDrop = false;
             LOG((CLOG_INFO "ignoring --enable-drag-drop, not supported below vista."));
         }
 #endif
-
+#endif
         if (useDragDrop) {
             argsBase().m_enableDragDrop = true;
         }

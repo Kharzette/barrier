@@ -26,11 +26,27 @@ fs::path known_folder_path(const KNOWNFOLDERID& id)
 {
     fs::path path;
     WCHAR* buffer;
+#if WINVER > _WIN32_WINNT_WINXP
     HRESULT result = SHGetKnownFolderPath(id, 0, NULL, &buffer);
     if (result == S_OK) {
         path = fs::path(std::wstring(buffer));
         CoTaskMemFree(buffer);
     }
+#else
+    char    pathBuf[MAX_PATH];
+    HRESULT result;
+    if (id == FOLDERID_LocalAppData)
+    {
+        result  =SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, pathBuf);
+    }
+    else
+    {
+        result = SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, pathBuf);
+    }
+    if (result == S_OK) {
+        path = fs::path(std::string(pathBuf));
+    }
+#endif
     return path;
 }
 

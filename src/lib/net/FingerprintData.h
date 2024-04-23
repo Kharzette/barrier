@@ -18,6 +18,7 @@
 #ifndef BARRIER_LIB_NET_FINGERPRINT_DATA_H
 #define BARRIER_LIB_NET_FINGERPRINT_DATA_H
 
+#include <stdint.h>
 #include <string>
 #include <vector>
 
@@ -31,7 +32,7 @@ enum FingerprintType {
 
 struct FingerprintData {
     std::string algorithm;
-    std::vector<std::uint8_t> data;
+    std::vector<uint8_t> data;
 
     bool valid() const { return !algorithm.empty(); }
 
