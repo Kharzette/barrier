@@ -44,8 +44,13 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
 
-    - name: Zip stuffs
-      run: zip ${{github.workspace}}/build/release.zip ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}/.
+    - name: Archive Stuffs
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'release.zip'
+        directory: ${{github.workspace}}/build
+        path: bin/${{env.BUILD_TYPE}}
 
     - uses: ncipollo/release-action@v1
       with:
