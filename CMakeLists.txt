@@ -22,6 +22,7 @@ option (BARRIER_BUILD_GUI "Build the GUI" ON)
 option (BARRIER_BUILD_INSTALLER "Build the installer" ON)
 option (BARRIER_BUILD_TESTS "Build the tests" ON)
 option (BARRIER_USE_EXTERNAL_GTEST "Use external installation of Google Test framework" OFF)
+option (BARRIER_BUILD_XP "Windows XP WINVER" OFF)
 
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set (CMAKE_CXX_STANDARD 14)
@@ -437,6 +438,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         configure_files (${CMAKE_CURRENT_SOURCE_DIR}/dist/wix ${CMAKE_BINARY_DIR}/installer-wix)
         message (STATUS "Configuring the inno installer")
         configure_files (${CMAKE_CURRENT_SOURCE_DIR}/dist/inno ${CMAKE_BINARY_DIR}/installer-inno)
+        if(${BARRIER_BUILD_XP})
+            add_compile_definitions(WINVER=0x501)
+        endif()
 endif()
 
 #
